@@ -1,18 +1,21 @@
 ''' Um grande banco nos contratou para desenvolver o seu novo sistema> Esse banco deseja modernizar suas operações e paara isso escolhe a linguagem python. Para sua primeira versão do sistema devemos implementar apenas 3 operacoes: depósito, saque e extrato
 '''
+def iniciar():
+    usuario = input('digite seu nome completo: ')
+    mensagem = f'''Olá {usuario.title()}, seja bem vindo(a) ao nosso banco, estou aqui para ajuda-lo(a)!.'''
+    print(mensagem)
 
-usuario = input('digite seu nome completo: ')
 
-mensagem = '''Olá {}, seja bem vindo(a) ao nosso banco, estou aqui para ajuda-lo(a)!.'''.format(usuario.title())
-print(mensagem)
+def menu():
+    print('''
+    [1] - Extrato
+    [2] - Saque
+    [3] - Deposito
+    [4] - Sair
+        ''')
+    
+    
 
-
-menu = '''
-[1] - Extrato
-[2] - Saque
-[3] - Deposito
-[4] - Sair
-'''
 saldo = 0
 limite = 1000
 extrato = ''
@@ -20,23 +23,18 @@ numero_saques = 0
 limite_saque = 5
 
 
-while True:
 
-    opcoes = int(input('digite uma opcao: '+ (menu)))
+def extrato(saldo, extrato):
+    
+        print('\n==============Extrato==============')
+        #if/else tenario
+        print('Não foram feitas transições'if not extrato else extrato)
+        print(f"Saldo atual: R$ {saldo:.2f}")
+        print('\n====================================')
+        return extrato
 
-    if opcoes == 3:
+def saque(saldo, extrato):
 
-        valor = float(input('digite o valor que deseja depositar: '))
-
-        if valor > 0:
-            saldo += valor
-            extrato = f'Deposito: R$ {valor:.2f}\n'
-        
-        else:
-            print('Operação falhou! Valor digitado é invalido')
-
-
-    elif opcoes == 2:
         valor = float(input('digite o valor a sacar: '))
 
         excedeu_saldo = valor > saldo
@@ -59,25 +57,51 @@ while True:
     
         else:
             print('opção invalida')
-
-    elif opcoes == 1:
-        print('\n==============Extrato==============')
-        #if/else tenario
-        print('Não foram feitas transições'if not extrato else extrato)
-        print('\n====================================')
-    
-    elif opcoes == 4:
-       break
-
-    else:
-        print('opcao invalida! Por favor tente novamente')
+        return saldo,extrato
 
 
 
+def deposito(saldo, extrato):
+        valor = float(input('digite o valor que deseja depositar: '))
+
+        if valor > 0:
+            saldo += valor
+            extrato = f'Deposito: R$ {valor:.2f}\n'
+        
+        else:
+            print('Operação falhou! Valor digitado é invalido')
 
 
 
-print('Obrigado por utilizar nossos serviços')
+
+def sair():
+
+        print('Obrigado por utilizar nossos serviços')
+
+iniciar()
+
+while True:
+        menu()
+        opcao = input("Digite uma opção: ")
+        try:
+            opcao = int(opcao)
+            if opcao == 1:
+                extrato(saldo, extrato)
+            elif opcao == 2:
+                saldo, extrato = saque(saldo,extrato)
+            elif opcao == 3:
+                saldo = deposito(saldo,extrato)
+            elif opcao == 4:
+                sair()
+                break
+            else:
+                print("Opção inválida! Por favor tente novamente.")
+        except ValueError:
+            print("Opção inválida! Digite um número.")
+
+
+
+
 
 
 
